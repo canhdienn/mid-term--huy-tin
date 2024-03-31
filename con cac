@@ -1,0 +1,141 @@
+import numpy as np
+import sympy as sp
+import math as m
+
+A = np.random.randint(low=1, high=100, size=(10, 10))
+B = np.random.randint(low=1, high=20, size=(2, 10))
+C = np.random.randint(low=1, high=20, size=(10, 2))
+A1 = np.transpose(A)
+B1 = np.transpose(B)
+C1 = np.transpose(C)
+
+print(A)
+print()
+#_________________________________________________________________________________________________
+#cauA
+def cauA():
+    return A + A1 + np.matmul(C, B) + np.matmul(B1, C1)
+print("Kết quả câu A:")
+print(cauA())
+
+#_________________________________________________________________________________________________
+#cauB
+def cauB():
+    first = A/10
+    for i in range(11,20):
+        j = 2
+        first = first + pow(A/i, j)
+        j = j + 1
+    return first
+print("\nKết quả câu B:")
+print(cauB())
+
+#_________________________________________________________________________________________________
+#cauC
+def cauC():
+    odd = A[::2] # start : stop : step , cụ thể là bắt đầu từ index 1 và chạy đến cuối, step là 2
+    return odd
+print("\nKết quả câu C:")
+print(cauC())
+
+#_________________________________________________________________________________________________
+#cauD
+def cauD():
+    new_vector = []
+    for i in A:
+        for odd in i:
+            if odd % 2 != 0:
+                new_vector.append(odd)
+    return new_vector
+print("\nKết quả câu D:")
+print(cauD())
+
+#_________________________________________________________________________________________________
+#cauE
+def isPrime(n):
+    if n < 2:
+        return False
+    i = 2
+    while i <= m.sqrt(n):
+        if n % i == 0:
+            return False
+        i += 1 
+    return True   
+
+def cauE():
+    new_vector = []
+    for i in A:
+        for pri in i:
+            if isPrime(pri):
+                new_vector.append(pri)
+    return new_vector
+print("\nket qua cau E")
+print(cauE())
+
+#_________________________________________________________________________________________________
+#cauF
+D = np.matmul(C, B)
+print(D)
+print()
+def cauF(D):
+    for i in range(len(D)):
+        if i % 2 == 0:
+            D[i] = D[i][::-1]
+    return D
+print(cauF(D))
+
+#_________________________________________________________________________________________________
+#cauG
+def isPrime(n):
+    if n < 2:
+        return False
+    i = 2
+    while i <= m.sqrt(n):
+        if n % i == 0:
+            return False
+        i += 1 
+    return True 
+
+def countPrimeInRow(row):
+    count = 0
+    for num in row:
+        if isPrime(num):
+            count += 1
+    return count
+
+def cauG(A):
+    maxPrimeCount = 0
+    for row in A:
+        primeCount = countPrimeInRow(row)
+        if primeCount > maxPrimeCount:
+            maxPrimeCount = max(maxPrimeCount, primeCount)
+
+    for row in A:
+        if countPrimeInRow(row) == maxPrimeCount:
+            print(row)
+cauG(A)
+
+#_________________________________________________________________________________________________
+#cauH
+def longestContiguousOddNumbers(row):
+    currentLength = 0
+    maxLength = 0
+    for num in row:
+        if num % 2 != 0:
+            currentLength += 1
+            maxLength = max(currentLength, maxLength)
+        else:
+            maxLength = 0
+    return maxLength
+
+def cauH(A):
+    maxSequenceLength = 0
+    for row in A:
+        sequenceLength = longestContiguousOddNumbers(row)
+        if sequenceLength > maxSequenceLength:
+            maxSequenceLength = max(maxSequenceLength, sequenceLength)
+
+    for row in A:
+        if longestContiguousOddNumbers(row) == maxSequenceLength:
+            print(row)
+cauH(A)
